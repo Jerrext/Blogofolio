@@ -1,13 +1,14 @@
 import React, { FC, ReactNode, useState } from "react";
 import classNames from "classnames";
 import styles from "./MenuButton.module.scss";
-import Button, { ButtonType } from "../Button";
+import Button from "../Button";
 import { CloseMenuIcon, OpenMenuIcon } from "../../assets/icons";
+import { ButtonType } from "../../utils/@globalTypes";
 
 type MenuButtonProps = {
   isOpened: boolean;
   menuButtonOnClick: () => void;
-}
+};
 
 const MenuButton: FC<MenuButtonProps> = ({ isOpened, menuButtonOnClick }) => {
   return (

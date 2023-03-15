@@ -3,7 +3,7 @@ import classNames from "classnames";
 import Title from "../../components/Title";
 import styles from "./FormPage.module.scss";
 import { Theme, useThemeContext } from "../../context/Theme/Context";
-import { useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { RoutesList } from "../Router";
 
 type FormPageProps = {
@@ -12,10 +12,6 @@ type FormPageProps = {
 };
 
 const FormPage: FC<FormPageProps> = ({ children, titleFormPage }) => {
-  const navigate = useNavigate();
-  const backHomeBtnOnClick = () => {
-    navigate(RoutesList.Home);
-  };
   const { theme } = useThemeContext();
   return (
     <>
@@ -24,9 +20,9 @@ const FormPage: FC<FormPageProps> = ({ children, titleFormPage }) => {
           [styles.darkWrapper]: theme === Theme.Dark,
         })}
       >
-        <div className={styles.btnHome} onClick={backHomeBtnOnClick}>
+        <NavLink to={RoutesList.Home} className={styles.btnHome}>
           Back to home
-        </div>
+        </NavLink>
         <Title title={titleFormPage} className={styles.title} />
         <div className={styles.frameWrapper}>
           <div

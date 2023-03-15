@@ -1,77 +1,118 @@
-import React from "react";
-import { BookmarkIcon, DislikeIcon, LikeIcon } from "../../assets/icons";
-import Button, { ButtonType } from "../../components/Button";
+import React, { FC } from "react";
+import classnames from "classnames";
+import { useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
+import {
+  BookmarkIcon,
+  DislikeIcon,
+  FilledBookmarkIcon,
+  LikeIcon,
+} from "../../assets/icons";
+import Button from "../../components/Button";
 import Title from "../../components/Title";
+import { Theme, useThemeContext } from "../../context/Theme/Context";
+import { LikeStatus, PostSelectors } from "../../redux/reducers/postSlice";
+import { ButtonType, CardType } from "../../utils/@globalTypes";
+import { RoutesList } from "../Router";
 import styles from "./Content.module.scss";
 
-const Content = () => {
+type ContentProps = {
+  singlePost: CardType;
+  onChangeStatus: (status: LikeStatus, card: CardType) => void;
+  onChangeBookmarkStatus: (card: CardType) => void;
+};
+
+const Content: FC<ContentProps> = ({
+  singlePost,
+  onChangeStatus,
+  onChangeBookmarkStatus,
+}) => {
+  const { title, text, image, id } = singlePost;
+
+  const { theme } = useThemeContext();
+
+  const likedPosts = useSelector(PostSelectors.getLikedPosts);
+  const dislikedPosts = useSelector(PostSelectors.getDislikedPosts);
+  const bookmarkPosts = useSelector(PostSelectors.getBookmarkPosts);
+
+  const likedIndex = likedPosts.findIndex((post) => post.id === singlePost.id);
+  const dislikedIndex = dislikedPosts.findIndex(
+    (post) => post.id === singlePost.id
+  );
+  const bookmarkIndex = bookmarkPosts.findIndex(
+    (post) => post.id === singlePost.id
+  );
+
+  const isDark = theme === Theme.Dark;
+
+  const onStatusClick = (status: LikeStatus) => () => {
+    onChangeStatus(status, singlePost);
+  };
+
+  const onBookmarkStatusClick = () => {
+    onChangeBookmarkStatus(singlePost);
+  };
+
   return (
     <div className={styles.conrainer}>
       <div className={styles.headerWrapper}>
         <div className={styles.navigation}>
-          <div className={styles.navItem}>Home</div>
-          <div className={styles.navItem}>Post 12345</div>
+          <NavLink
+            to={RoutesList.Home}
+            className={classnames(styles.navItem, {
+              [styles.darkNavItem]: isDark,
+            })}
+          >
+            Home
+          </NavLink>
+          <div className={styles.navItem}>Post {id}</div>
         </div>
-        <Title title={"Astronauts prep for new solar arrays on nearly seven-hour spacewalk"} />
+        <Title title={title} />
       </div>
       <div>
-        <img
-          src="https://thumbs.dreamstime.com/b/environment-earth-day-hands-trees-growing-seedlings-bokeh-green-background-female-hand-holding-tree-nature-field-gra-130247647.jpg"
-          alt="image"
-          className={styles.image}
-        />
+        <img src={image} alt="image" className={styles.image} />
       </div>
-      <p className={styles.text}>
-        Astronauts Kayla Barron and Raja Chari floated out of the International Space Station
-        airlock for a spacewalk Tuesday, installing brackets and struts to support new solar arrays
-        to upgrade the research lab’s power system on the same day that crewmate Mark Vande Hei
-        marked his 341st day in orbit, a U.S. record for a single spaceflight. During the final days
-        of Alice Neel’s blockbuster solo show at the Metropolitan Museum of Art this summer, the
-        line into the exhibition spanned the length of the museum’s European paintings corridor, and
-        the wait was over half an hour. Titled “People Come First,” the show featured more than 100
-        gritty cityscapes, domestic interiors, and stripped-down portraits of Neel’s neighbors,
-        friends, and fellow artists in the largest-ever showing of her work in her hometown of New
-        York City. The stories tracked Hambling’s trailblazing career while focusing on her current
-        and upcoming projects. The artist’s installation Relic (2021), produced alongside sound
-        recordist Chris Watson, was recently on view at Snape Maltings in London. Meanwhile, this
-        October, portraits by Hambling will be presented at the Italian gallery Thomas Brambilla.
-        The artist’s “Wave Series” is also currently being exhibited in the group show “Summer
-        Exhibition” at Marlborough London, which runs through September 10th. The excitement
-        surrounding this exhibition delighted longtime fans of the expressive painter while
-        inspiring a legion of new devotees—a trend matched by Neel’s strengthening position in the
-        art market, especially in the past year. In May, Neel’s 1966 canvas Dr. Finger’s Waiting
-        Room roused a flurry of bids from the United States, Asia, and Europe at Christie’s New
-        York, where it ultimately sold for just over $3 million, breaking both its high estimate and
-        the artist’s auction record. Just hours earlier at Sotheby’s New York, Neel’s double
-        portrait Henry and Sally Hope (1977), depicting an art historian and his wife, sold for just
-        under $1.6 million, notching her third-highest auction result. The demand for Maggi
-        Hambling’s evocative portraits and exuberant depictions of seascapes and landscapes surged
-        this past week, when the number of collectors inquiring on her work increased more than
-        tenfold from the week before. The British artist, esteemed for her whirling, gestural
-        paintings and bold public sculptures, has seen a consistent wave of interest in her work
-        that has accelerated in the past few years. This recent uptick in interest is consistent
-        with Hambling’s career trajectory, which has been punctuated by a flurry of public
-        commissions, institutional recognition, and secondary-market demand.
+      <p
+        className={classnames(styles.text, {
+          [styles.darkText]: isDark,
+        })}
+      >
+        {text}
       </p>
       <div className={styles.btnWrapper}>
-        <div>
+        <div className={styles.leftBtn}>
           <Button
-            title={<LikeIcon />}
+            title={
+              <div className={styles.iconWrapper}>
+                <LikeIcon />
+                {likedIndex > -1 && <div>1</div>}
+              </div>
+            }
             type={ButtonType.Secondary}
-            onClick={() => {}}
-            className={styles.likeBtn}
+            onClick={onStatusClick(LikeStatus.Like)}
+            className={styles.statusBtn}
           />
-          <Button title={<DislikeIcon />} type={ButtonType.Secondary} onClick={() => {}} />
+          <Button
+            title={
+              <div className={styles.iconWrapper}>
+                <DislikeIcon />
+                {dislikedIndex > -1 && <div>1</div>}
+              </div>
+            }
+            type={ButtonType.Secondary}
+            onClick={onStatusClick(LikeStatus.Dislike)}
+            className={styles.statusBtn}
+          />
         </div>
         <Button
           title={
             <div className={styles.rightBtn}>
-              <BookmarkIcon />
+              {bookmarkIndex > -1 ? <FilledBookmarkIcon /> : <BookmarkIcon />}
               <div>Add to favorites</div>
             </div>
           }
           type={ButtonType.Secondary}
-          onClick={() => {}}
+          onClick={onBookmarkStatusClick}
         />
       </div>
     </div>

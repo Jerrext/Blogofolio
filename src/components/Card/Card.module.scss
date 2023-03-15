@@ -23,6 +23,7 @@
 .iconsWrapper {
   display: flex;
   gap: 24px;
+  color: $secondary;
 }
 
 .iconWrapper {
@@ -30,15 +31,20 @@
   gap: 8px;
   font-size: 16px;
   font-weight: 700;
+
+  &:hover svg > path {
+    fill: $primary-secondary;
+  }
 }
 
 .infoWrapper {
   display: flex;
+  gap: 32px;
   justify-content: space-between;
 }
 
 .image {
-  max-width: 256px;
+  width: 256px;
   object-fit: cover;
   max-height: 244px;
 }
@@ -53,7 +59,7 @@
 .title {
   @include h2();
   &:hover {
-    color: $primary;
+    color: $primary-secondary;
     cursor: pointer;
   }
 }
@@ -88,14 +94,14 @@
 
 .mediumTitle {
   &:hover {
-    color: $primary;
+    color: $primary-secondary;
     cursor: pointer;
   }
   @include h3();
 }
 
 .mediumImage {
-  max-width: 352px;
+  width: 352px;
   max-height: 246px;
   height: 246px;
 }
@@ -107,7 +113,7 @@
 
 .smallImage {
   max-height: 96px;
-  max-width: 96px;
+  width: 96px;
 }
 
 .smallInfoWrapper {
@@ -118,6 +124,7 @@
   color: $white;
 }
 .darkIconWrapper {
+  color: $white;
   div > svg > path {
     fill: $white;
   }

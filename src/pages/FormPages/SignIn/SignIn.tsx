@@ -1,10 +1,11 @@
 import React from "react";
 import styles from "./SignIn.module.scss";
 import Input from "../../../components/Input";
-import Button, { ButtonType } from "../../../components/Button";
+import Button from "../../../components/Button";
 import FormPage from "../FormPage";
 import { NavLink } from "react-router-dom";
 import { RoutesList } from "../../Router";
+import { ButtonType } from "../../../utils/@globalTypes";
 
 const SignIn = () => {
   const emailOnChange = () => {};
