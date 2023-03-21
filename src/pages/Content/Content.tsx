@@ -1,7 +1,7 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import classnames from "classnames";
-import { useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink, useParams } from "react-router-dom";
 import {
   BookmarkIcon,
   DislikeIcon,
@@ -11,23 +11,31 @@ import {
 import Button from "../../components/Button";
 import Title from "../../components/Title";
 import { Theme, useThemeContext } from "../../context/Theme/Context";
-import { LikeStatus, PostSelectors } from "../../redux/reducers/postSlice";
+import { getSinglePost, LikeStatus, PostSelectors, setBookmarkStatus, setSinglePost, setStatus } from "../../redux/reducers/postSlice";
 import { ButtonType, CardType } from "../../utils/@globalTypes";
 import { RoutesList } from "../Router";
 import styles from "./Content.module.scss";
 
-type ContentProps = {
-  singlePost: CardType;
-  onChangeStatus: (status: LikeStatus, card: CardType) => void;
-  onChangeBookmarkStatus: (card: CardType) => void;
-};
+const Content = () => {
+  const dispatch = useDispatch();
+  const { postId } = useParams();
 
-const Content: FC<ContentProps> = ({
-  singlePost,
-  onChangeStatus,
-  onChangeBookmarkStatus,
-}) => {
-  const { title, text, image, id } = singlePost;
+  const singlePost = useSelector(PostSelectors.getSinglePost);
+
+  const onChangeStatus = (status: LikeStatus, card: CardType) => {
+    dispatch(setStatus({ status, card }));
+  };
+
+  const onChangeBookmarkStatus = (card: CardType) => {
+    dispatch(setBookmarkStatus(card));
+  };
+
+  useEffect(() => {
+    postId && dispatch(getSinglePost(postId));
+    return () => {
+      dispatch(setSinglePost(null));
+    };
+  }, []);
 
   const { theme } = useThemeContext();
 
@@ -35,25 +43,25 @@ const Content: FC<ContentProps> = ({
   const dislikedPosts = useSelector(PostSelectors.getDislikedPosts);
   const bookmarkPosts = useSelector(PostSelectors.getBookmarkPosts);
 
-  const likedIndex = likedPosts.findIndex((post) => post.id === singlePost.id);
+  const likedIndex = likedPosts.findIndex((post) => post.id === singlePost?.id);
   const dislikedIndex = dislikedPosts.findIndex(
-    (post) => post.id === singlePost.id
+    (post) => post.id === singlePost?.id
   );
   const bookmarkIndex = bookmarkPosts.findIndex(
-    (post) => post.id === singlePost.id
+    (post) => post.id === singlePost?.id
   );
 
   const isDark = theme === Theme.Dark;
 
   const onStatusClick = (status: LikeStatus) => () => {
-    onChangeStatus(status, singlePost);
+    singlePost && onChangeStatus(status, singlePost);
   };
 
   const onBookmarkStatusClick = () => {
-    onChangeBookmarkStatus(singlePost);
+    singlePost && onChangeBookmarkStatus(singlePost);
   };
 
-  return (
+  return singlePost && (
     <div className={styles.conrainer}>
       <div className={styles.headerWrapper}>
         <div className={styles.navigation}>
@@ -65,19 +73,19 @@ const Content: FC<ContentProps> = ({
           >
             Home
           </NavLink>
-          <div className={styles.navItem}>Post {id}</div>
+          <div className={styles.navItem}>Post {singlePost.id}</div>
         </div>
-        <Title title={title} />
+        <Title title={singlePost.title} />
       </div>
       <div>
-        <img src={image} alt="image" className={styles.image} />
+        <img src={singlePost.image} alt="image" className={styles.image} />
       </div>
       <p
         className={classnames(styles.text, {
           [styles.darkText]: isDark,
         })}
       >
-        {text}
+        {singlePost.text}
       </p>
       <div className={styles.btnWrapper}>
         <div className={styles.leftBtn}>
