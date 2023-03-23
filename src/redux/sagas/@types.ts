@@ -6,3 +6,9 @@ export type AllPostsResponse = {
   previous: string;
   results: CardListType;
 };
+
+export type SignUpUserResponse = {
+  username: string;
+  email: string;
+  id: number;
+};
