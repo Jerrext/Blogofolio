@@ -77,9 +77,11 @@ const Home = () => {
       onChangeBookmarkStatus={onChangeBookmarkStatus}
       bookmarkPosts={bookmarkPosts}
     >
-      <Title title={"Blog"} />
-      <Tabs tabsList={TABS_LIST} onClick={onTabClick} activeTab={activeTab} />
-      <CardsList cardsList={postsList} />
+      <div>
+        <Title title={"Blog"} />
+        <Tabs tabsList={TABS_LIST} onClick={onTabClick} activeTab={activeTab} />
+        <CardsList cardsList={postsList} />
+      </div>
       {post && <PostModalWindow post={post} />}
     </PostVisibilityProvider>
   );

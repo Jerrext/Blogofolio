@@ -9,7 +9,7 @@ export type CardType = {
   author: number;
 };
 
-export type CardListType = CardType[]
+export type CardListType = CardType[];
 
 export enum CardSize {
   Large,

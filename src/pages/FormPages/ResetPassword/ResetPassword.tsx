@@ -50,7 +50,7 @@ const ResetPassword = () => {
         />
       </div>
       <Button
-        title={"Confirm"}
+        title={"Go to home"}
         type={ButtonType.Primary}
         onClick={onHomeBtnClick}
       />
