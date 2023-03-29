@@ -16,6 +16,7 @@ type PostState = {
   savedPosts: CardListType;
   postsList: CardListType;
   singlePost: CardType | null;
+  myPosts: CardListType;
 };
 
 const initialState: PostState = {
@@ -26,6 +27,7 @@ const initialState: PostState = {
   savedPosts: [],
   postsList: [],
   singlePost: null,
+  myPosts: [],
 };
 
 const postSlice = createSlice({
@@ -87,6 +89,10 @@ const postSlice = createSlice({
         state.savedPosts.splice(bookmarkIndex, 1);
       }
     },
+    getMyPosts(_, __: PayloadAction<undefined>) {},
+    setMyPosts(state, action: PayloadAction<CardListType>) {
+      state.myPosts = action.payload;
+    },
   },
 });
 
@@ -99,6 +105,8 @@ export const {
   setAllPosts,
   getSinglePost,
   setSinglePost,
+  getMyPosts,
+  setMyPosts,
 } = postSlice.actions;
 export default postSlice.reducer;
 

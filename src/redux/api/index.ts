@@ -41,6 +41,26 @@ const getUserInfo = (token: string) => {
   );
 };
 
+const verifyToken = (token: string) => {
+  return API.post("/auth/jwt/verify/", { token });
+};
+
+const refreshToken = (refresh: string) => {
+  return API.post("/auth/jwt/refresh/", { refresh });
+};
+
+const getMyPosts = (token: string) => {
+  return API.get(
+    "/blog/posts/my_posts/",
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
 export default {
   getPosts,
   getPost,
@@ -48,4 +68,7 @@ export default {
   activateUser,
   signInUser,
   getUserInfo,
+  verifyToken,
+  refreshToken,
+  getMyPosts,
 };
