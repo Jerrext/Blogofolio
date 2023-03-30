@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   LikeStatus,
   PostSelectors,
+  setBookmarkStatus,
   setPostVisibility,
   setSelectedPost,
   setStatus,
@@ -197,10 +198,15 @@ const Home = () => {
     dispatch(setStatus({ status, card }));
   };
 
+  const onChangeBookmarkStatus = (card: CardType) => {
+    dispatch(setBookmarkStatus(card));
+  };
+
   const isPostOpened = useSelector(PostSelectors.getPostVisibility);
   const post = useSelector(PostSelectors.getPostValue);
   const likedPosts = useSelector(PostSelectors.getLikedPosts);
   const dislikedPosts = useSelector(PostSelectors.getDislikedPosts);
+  const bookmarkPosts = useSelector(PostSelectors.getBookmarkPosts);
 
   const onTabClick = (key: TabsNames) => setActiveTab(key);
 
@@ -215,6 +221,8 @@ const Home = () => {
       onChangeStatus={onChangeStatus}
       likedPosts={likedPosts}
       dislikedPosts={dislikedPosts}
+      onChangeBookmarkStatus={onChangeBookmarkStatus}
+      bookmarkPosts={bookmarkPosts}
     >
       <Title title={"Blog"} />
       <Tabs tabsList={TABS_LIST} onClick={onTabClick} activeTab={activeTab} />

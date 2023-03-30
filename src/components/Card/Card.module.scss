@@ -20,9 +20,16 @@
   justify-content: space-between;
 }
 
-.iconWrapper {
+.iconsWrapper {
   display: flex;
   gap: 24px;
+}
+
+.iconWrapper {
+  display: flex;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 700;
 }
 
 .infoWrapper {
@@ -111,7 +118,6 @@
   color: $white;
 }
 .darkIconWrapper {
-
   div > svg > path {
     fill: $white;
   }

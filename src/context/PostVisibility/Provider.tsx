@@ -13,6 +13,8 @@ type PostVisibilityProviderProps = {
   onChangeStatus: (status: LikeStatus, card: CardType) => void;
   likedPosts: CardType[];
   dislikedPosts: CardType[];
+  onChangeBookmarkStatus: (card: CardType) => void;
+  bookmarkPosts: CardType[];
 };
 const PostVisibilityProvider: FC<PostVisibilityProviderProps> = ({
   children,
@@ -21,6 +23,8 @@ const PostVisibilityProvider: FC<PostVisibilityProviderProps> = ({
   onChangeStatus,
   likedPosts,
   dislikedPosts,
+  onChangeBookmarkStatus,
+  bookmarkPosts,
 }) => {
   return (
     <PostVisibilityContext.Provider
@@ -30,6 +34,8 @@ const PostVisibilityProvider: FC<PostVisibilityProviderProps> = ({
         onChangeStatus,
         likedPosts,
         dislikedPosts,
+        onChangeBookmarkStatus,
+        bookmarkPosts,
       }}
     >
       {children}

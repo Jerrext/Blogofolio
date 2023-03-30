@@ -8,6 +8,8 @@ const initialState = {
   onChangeStatus: (status: LikeStatus, card: CardType) => {},
   likedPosts: [<CardType>{}],
   dislikedPosts: [<CardType>{}],
+  onChangeBookmarkStatus: (card: CardType) => {},
+  bookmarkPosts: [<CardType>{}],
 };
 
 export const PostVisibilityContext = createContext(initialState);

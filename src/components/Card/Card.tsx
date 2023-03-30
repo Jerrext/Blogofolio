@@ -5,6 +5,7 @@ import { CardProps, CardSize, CardType } from "./types";
 import {
   BookmarkIcon,
   DislikeIcon,
+  FilledBookmarkIcon,
   LikeIcon,
   MoreIcon,
 } from "../../assets/icons";
@@ -22,6 +23,8 @@ const Card: FC<CardProps> = ({ card, size }) => {
     onChangeStatus,
     likedPosts,
     dislikedPosts,
+    onChangeBookmarkStatus,
+    bookmarkPosts,
   } = usePostVisibilityContext();
 
   const isMedium = size === CardSize.Medium;
@@ -29,13 +32,18 @@ const Card: FC<CardProps> = ({ card, size }) => {
   const isDark = theme === Theme.Dark;
   const likedIndex = likedPosts.findIndex((post) => post.id === card.id);
   const dislikedIndex = dislikedPosts.findIndex((post) => post.id === card.id);
+  const bookmarkIndex = bookmarkPosts.findIndex((post) => post.id === card.id);
 
-  const onMoreBtnClick = (post: CardType, isPostOpened: boolean) => () => {
-    onChangePostVisibility(post, isPostOpened);
+  const onMoreBtnClick = (isPostOpened: boolean) => () => {
+    onChangePostVisibility(card, isPostOpened);
   };
 
   const onStatusClick = (status: LikeStatus) => () => {
     onChangeStatus(status, card);
+  };
+
+  const onBookmarkStatusClick = () => {
+    onChangeBookmarkStatus(card);
   };
 
   return (
@@ -76,29 +84,35 @@ const Card: FC<CardProps> = ({ card, size }) => {
       </div>
       <div className={styles.footer}>
         <div
-          className={classNames(styles.iconWrapper, {
+          className={classNames(styles.iconsWrapper, {
             [styles.darkIconWrapper]: isDark,
           })}
         >
-          <div onClick={onStatusClick(LikeStatus.Like)}>
+          <div
+            className={styles.iconWrapper}
+            onClick={onStatusClick(LikeStatus.Like)}
+          >
             <LikeIcon />
-            {likedIndex > -1 && 1}
+            <div>{likedIndex > -1 && 1}</div>
           </div>
-          <div onClick={onStatusClick(LikeStatus.Dislike)}>
+          <div
+            className={styles.iconWrapper}
+            onClick={onStatusClick(LikeStatus.Dislike)}
+          >
             <DislikeIcon />
-            {dislikedIndex > -1 && 1}
+            <div>{dislikedIndex > -1 && 1}</div>
           </div>
         </div>
         <div
-          className={classNames(styles.iconWrapper, {
+          className={classNames(styles.iconsWrapper, {
             [styles.darkIconWrapper]: isDark,
           })}
         >
-          <div>
-            <BookmarkIcon />
+          <div onClick={onBookmarkStatusClick}>
+            {bookmarkIndex === -1 ? <BookmarkIcon /> : <FilledBookmarkIcon />}
           </div>
           {!postVisibility && (
-            <div onClick={onMoreBtnClick(card, true)}>
+            <div onClick={onMoreBtnClick(true)}>
               <MoreIcon />
             </div>
           )}

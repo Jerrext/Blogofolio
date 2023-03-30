@@ -13,6 +13,7 @@ type PostState = {
   isModalPostOpened: boolean;
   likedPosts: CardType[];
   dislikedPosts: CardType[];
+  savedPosts: CardType[];
 };
 
 const initialState: PostState = {
@@ -20,6 +21,7 @@ const initialState: PostState = {
   isModalPostOpened: false,
   likedPosts: [],
   dislikedPosts: [],
+  savedPosts: [],
 };
 
 const postSlice = createSlice({
@@ -62,11 +64,26 @@ const postSlice = createSlice({
         state[secondaryKey].splice(secondaryIndex, 1);
       }
     },
+    setBookmarkStatus(state, action: PayloadAction<CardType>) {
+      const bookmarkIndex = state.savedPosts.findIndex(
+        (post) => action.payload.id === post.id
+      );
+
+      if (bookmarkIndex === -1) {
+        state.savedPosts.push(action.payload);
+      } else {
+        state.savedPosts.splice(bookmarkIndex, 1);
+      }
+    },
   },
 });
 
-export const { setSelectedPost, setPostVisibility, setStatus } =
-  postSlice.actions;
+export const {
+  setSelectedPost,
+  setPostVisibility,
+  setStatus,
+  setBookmarkStatus,
+} = postSlice.actions;
 export default postSlice.reducer;
 
 export const PostSelectors = {
@@ -74,4 +91,5 @@ export const PostSelectors = {
   getPostVisibility: (state: RootState) => state.post.isModalPostOpened,
   getLikedPosts: (state: RootState) => state.post.likedPosts,
   getDislikedPosts: (state: RootState) => state.post.dislikedPosts,
+  getBookmarkPosts: (state: RootState) => state.post.savedPosts,
 };
