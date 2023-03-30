@@ -8,6 +8,7 @@ import { RoutesList } from "../../Router";
 import styles from "./Header.module.scss";
 import classNames from "classnames";
 import MenuButton from "../../../components/MenuButton";
+import { UserIcon } from "../../../assets/icons";
 
 const Header = () => {
   const [isOpened, setOpened] = useState(false);
@@ -23,42 +24,67 @@ const Header = () => {
     navigate(RoutesList.SignIn);
   };
 
+  const isLoggedIn = false;
+
   const navButtonsList = useMemo(
     () => [
       {
         title: "Home",
         key: RoutesList.Home,
       },
-      {
-        title: "Add Post",
-        key: RoutesList.Confirm,
-      },
+      ...(isLoggedIn
+        ? [
+            {
+              title: "Add Post",
+              key: RoutesList.AddPost,
+            },
+          ]
+        : []),
     ],
-    []
+    [isLoggedIn]
   );
 
   return (
     <>
       <div className={styles.wrapper}>
-        <MenuButton isOpened={isOpened} menuButtonOnClick={menuButtonOnClick}/>
-        <UserName userName={"Artem Malkin"} />
+        <MenuButton isOpened={isOpened} menuButtonOnClick={menuButtonOnClick} />
+        {isLoggedIn ? (
+          <UserName userName={"Artem Malkin"} />
+        ) : (
+          <Button
+            title={<UserIcon />}
+            onClick={signInBtnOnClick}
+            type={ButtonType.Primary}
+            className={styles.userBtn}
+          />
+        )}
       </div>
       {isOpened && (
         <div className={styles.menuWrapper}>
           <div>
-            <UserName userName={"Artem Malkin"} />
+            {isLoggedIn && <UserName userName={"Artem Malkin"} />}
             {navButtonsList.map(({ title, key }) => {
               return (
-              <NavLink to={key} key={key} className={classNames(styles.navBtn, {
-                [styles.activeNavBtn]: location.pathname === key,
-              })}>
-                {title}
-              </NavLink>
-            )})}
+                <NavLink
+                  to={key}
+                  key={key}
+                  className={classNames(styles.navBtn, {
+                    [styles.activeNavBtn]: location.pathname === key,
+                  })}
+                >
+                  {title}
+                </NavLink>
+              );
+            })}
           </div>
           <div>
             <ThemeSwitcher />
-            <Button title={"Sign In"} onClick={signInBtnOnClick} type={ButtonType.Secondary} className={styles.bottomBtn}/>
+            <Button
+              title={isLoggedIn ? "Log out" : "Sign In"}
+              onClick={isLoggedIn ? () => {} : signInBtnOnClick}
+              type={ButtonType.Secondary}
+              className={styles.bottomBtn}
+            />
           </div>
         </div>
       )}

@@ -9,22 +9,34 @@ import { RoutesList } from "../Router";
 type FormPageProps = {
   children: ReactNode;
   titleFormPage: string;
-}
+};
 
-const FormPage: FC<FormPageProps> = ({children, titleFormPage}) => {
-  const navigate = useNavigate()
+const FormPage: FC<FormPageProps> = ({ children, titleFormPage }) => {
+  const navigate = useNavigate();
   const backHomeBtnOnClick = () => {
-    navigate(RoutesList.Home)
-  }
+    navigate(RoutesList.Home);
+  };
   const { theme } = useThemeContext();
   return (
     <>
-      <div className={classNames(styles.wrapper, {
-        [styles.darkWrapper]: theme === Theme.Dark,
-      })}>
-        <div className={styles.btnHome} onClick={backHomeBtnOnClick}>Back to home</div>
-        <Title title={titleFormPage} className={styles.title}/>
-        {children}
+      <div
+        className={classNames(styles.wrapper, {
+          [styles.darkWrapper]: theme === Theme.Dark,
+        })}
+      >
+        <div className={styles.btnHome} onClick={backHomeBtnOnClick}>
+          Back to home
+        </div>
+        <Title title={titleFormPage} className={styles.title} />
+        <div className={styles.frameWrapper}>
+          <div
+            className={classNames(styles.formWrapper, {
+              [styles.darkFormWrapper]: theme === Theme.Dark,
+            })}
+          >
+            {children}
+          </div>
+        </div>
       </div>
     </>
   );
