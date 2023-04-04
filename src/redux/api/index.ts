@@ -1,4 +1,5 @@
 import { create } from "apisauce";
+import { PER_PAGE } from "../../utils/constants";
 import {
   ActivateUserData,
   SignInUserData,
@@ -9,8 +10,8 @@ const API = create({
   baseURL: "https://studapi.teachmeskills.by",
 });
 
-const getPosts = () => {
-  return API.get("/blog/posts/", { limit: 12 });
+const getPosts = (offset: number, search?: string, ordering?: string) => {
+  return API.get("/blog/posts/", { limit: PER_PAGE, search, offset, ordering });
 };
 
 const getPost = (id: string) => {

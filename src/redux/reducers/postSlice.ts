@@ -1,7 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { CardListType, CardType } from "../../utils/@globalTypes";
+import { SEARCH_VALUE } from "../../utils/constants";
 
 import { RootState } from "../store";
+import { GetAllPostsPayload, SetAllPostsPayload } from "./@types";
 
 export enum LikeStatus {
   Like = "like",
@@ -17,6 +19,9 @@ type PostState = {
   postsList: CardListType;
   singlePost: CardType | null;
   myPosts: CardListType;
+  searchList: CardListType;
+  searchValue: string;
+  postsCount: number;
 };
 
 const initialState: PostState = {
@@ -28,15 +33,22 @@ const initialState: PostState = {
   postsList: [],
   singlePost: null,
   myPosts: [],
+  searchList: [],
+  searchValue: "",
+  postsCount: 0,
 };
 
 const postSlice = createSlice({
   name: "post",
   initialState,
   reducers: {
-    getAllPosts: (_, __: PayloadAction<undefined>) => {},
-    setAllPosts: (state, action: PayloadAction<CardListType>) => {
-      state.postsList = action.payload;
+    getAllPosts: (_, __: PayloadAction<GetAllPostsPayload>) => {},
+    setAllPosts: (
+      state,
+      { payload: { postsCount, cardList } }: PayloadAction<SetAllPostsPayload>
+    ) => {
+      state.postsList = cardList;
+      state.postsCount = postsCount;
     },
     getSinglePost: (_, __: PayloadAction<string>) => {},
     setSinglePost: (state, action: PayloadAction<CardType | null>) => {
@@ -93,6 +105,12 @@ const postSlice = createSlice({
     setMyPosts(state, action: PayloadAction<CardListType>) {
       state.myPosts = action.payload;
     },
+    getSearchPosts(state, action: PayloadAction<string>) {
+      state.searchValue = action.payload;
+    },
+    setSearchPosts(state, action: PayloadAction<CardListType>) {
+      state.searchList = action.payload;
+    },
   },
 });
 
@@ -107,6 +125,8 @@ export const {
   setSinglePost,
   getMyPosts,
   setMyPosts,
+  getSearchPosts,
+  setSearchPosts,
 } = postSlice.actions;
 export default postSlice.reducer;
 
@@ -118,4 +138,8 @@ export const PostSelectors = {
   getBookmarkPosts: (state: RootState) => state.post.savedPosts,
   getAllPosts: (state: RootState) => state.post.postsList,
   getSinglePost: (state: RootState) => state.post.singlePost,
+  getMyPosts: (state: RootState) => state.post.myPosts,
+  getSearchValue: (state: RootState) => state.post.searchValue,
+  getSearchPosts: (state: RootState) => state.post.searchList,
+  getAllPostsCount: (state: RootState) => state.post.postsCount,
 };

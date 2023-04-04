@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { KeyboardEvent, useEffect, useMemo, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Button from "../../../components/Button";
 import UserName from "../../../components/UserName";
@@ -7,20 +7,23 @@ import { RoutesList } from "../../Router";
 import styles from "./Header.module.scss";
 import classNames from "classnames";
 import MenuButton from "../../../components/MenuButton";
-import { UserIcon } from "../../../assets/icons";
+import { CloseMenuIcon, SearchIcon, UserIcon } from "../../../assets/icons";
 import { ButtonType } from "../../../utils/@globalTypes";
 import { useDispatch, useSelector } from "react-redux";
 import { AuthSelectors, logOutUser } from "../../../redux/reducers/authSlice";
+import Input from "../../../components/Input";
+import { getSearchPosts } from "../../../redux/reducers/postSlice";
+import { SEARCH_VALUE } from "../../../utils/constants";
 const Header = () => {
   const dispatch = useDispatch();
   const [isOpened, setOpened] = useState(false);
-
-  const menuButtonOnClick = () => {
-    setOpened(!isOpened);
-  };
-
+  const [searchValue, setSearchValue] = useState("");
+  const [isInputOpened, setInputOpened] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+
+  const isLoggedIn = useSelector(AuthSelectors.getLoggedIn);
+  const name = useSelector(AuthSelectors.getUserName);
 
   const signInBtnOnClick = () => {
     navigate(RoutesList.SignIn);
@@ -30,8 +33,26 @@ const Header = () => {
     dispatch(logOutUser());
   };
 
-  const isLoggedIn = useSelector(AuthSelectors.getLoggedIn);
-  const name = useSelector(AuthSelectors.getUserName);
+  const menuButtonOnClick = () => {
+    setOpened(!isOpened);
+  };
+
+  const onChangeSearchInput = (value: string) => {
+    setSearchValue(value);
+  };
+
+  const onSearchClick = () => {
+    setInputOpened(true);
+    if (isInputOpened) {
+      dispatch(getSearchPosts(searchValue));
+      sessionStorage.setItem(SEARCH_VALUE, searchValue);
+      navigate(RoutesList.Search);
+    }
+  };
+
+  const onCloseSearchClick = () => {
+    setInputOpened(false);
+  };
 
   const navButtonsList = useMemo(
     () => [
@@ -53,20 +74,53 @@ const Header = () => {
 
   const userName = name ? name : "Одуванчик";
 
+  const onEnterDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      onSearchClick();
+    }
+  };
+
   return (
     <>
       <div className={styles.wrapper}>
         <MenuButton isOpened={isOpened} menuButtonOnClick={menuButtonOnClick} />
-        {isLoggedIn ? (
-          <UserName userName={userName} />
-        ) : (
+        <div className={styles.inputWrapper}>
+          {isInputOpened && (
+            <div>
+              <Input
+                placeholder="Search..."
+                onKeyDown={onEnterDown}
+                inputType="text"
+                onChange={onChangeSearchInput}
+                className={styles.searchInput}
+              />
+              <div
+                className={styles.closeSearchBtn}
+                onClick={onCloseSearchClick}
+              >
+                <CloseMenuIcon />
+              </div>
+            </div>
+          )}
+        </div>
+        <div className={styles.rightControls}>
           <Button
-            title={<UserIcon />}
-            onClick={signInBtnOnClick}
+            title={<SearchIcon />}
+            onClick={onSearchClick}
             type={ButtonType.Primary}
             className={styles.userBtn}
           />
-        )}
+          {isLoggedIn ? (
+            <UserName userName={userName} />
+          ) : (
+            <Button
+              title={<UserIcon />}
+              onClick={signInBtnOnClick}
+              type={ButtonType.Primary}
+              className={styles.userBtn}
+            />
+          )}
+        </div>
       </div>
       {isOpened && (
         <div className={styles.menuWrapper}>

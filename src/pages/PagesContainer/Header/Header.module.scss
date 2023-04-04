@@ -9,9 +9,32 @@
   height: 84px;
   z-index: 999;
 
-  div:nth-child(n) {
-    border-left: 1px solid $primary-secondary;
+  > div {
     border-right: 1px solid $primary-secondary;
+  }
+
+  > div:last-child {
+    border-right: 0;
+  }
+
+  .searchInput {
+    width: 100%;
+    height: 84px;
+    margin: 0;
+    background-color: $primary-secondary;
+    color: $white;
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    &:hover {
+      border: 2px solid $medium;
+    }
+
+    &:focus {
+      border: 2px solid $medium;
+    }
   }
 }
 
@@ -54,4 +77,25 @@
 .userBtn {
   padding: 0;
   width: 84px;
+}
+
+.inputWrapper {
+  flex: 1;
+  position: relative;
+}
+
+.rightControls {
+  display: flex;
+  height: 100%;
+  > div:first-child {
+    border-right: 1px solid $primary-secondary;
+  }
+}
+
+.closeSearchBtn {
+  position: absolute;
+  right: 32px;
+  top: 50%;
+  cursor: pointer;
+  transform: translateY(-45%);
 }

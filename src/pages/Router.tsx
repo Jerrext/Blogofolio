@@ -1,6 +1,12 @@
 import React, { useEffect } from "react";
 
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
 import PagesContainer from "./PagesContainer";
 import SignIn from "./FormPages/SignIn";
 import Home from "./Home";
@@ -13,6 +19,7 @@ import NewPassword from "./FormPages/NewPassword";
 import { useDispatch, useSelector } from "react-redux";
 import { AuthSelectors, getUserInfo } from "../redux/reducers/authSlice";
 import { getMyPosts } from "../redux/reducers/postSlice";
+import Search from "./Search";
 
 export enum RoutesList {
   Home = "/",
@@ -67,6 +74,7 @@ const Router = () => {
           <Route path={RoutesList.Confirm} element={<Confirmation />} />
           <Route path={RoutesList.ResetPassword} element={<ResetPassword />} />
           <Route path={RoutesList.NewPassword} element={<NewPassword />} />
+          <Route path={RoutesList.Search} element={<Search />} />
           <Route path={RoutesList.Default} element={<div>404</div>} />
         </Route>
       </Routes>

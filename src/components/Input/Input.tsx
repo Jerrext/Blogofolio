@@ -1,11 +1,12 @@
-import React, { ChangeEvent, FC, useState } from "react";
+import React, { ChangeEvent, FC, KeyboardEvent, useState } from "react";
 import classNames from "classnames";
 import styles from "./Input.module.scss";
 import { Theme, useThemeContext } from "../../context/Theme/Context";
 
 type InputProps = {
-  title: string;
+  title?: string;
   placeholder: string;
+  onKeyDown?: (event: KeyboardEvent<HTMLInputElement>) => void;
   inputType: string;
   disabled?: boolean;
   errText?: string;
@@ -21,6 +22,7 @@ const Input: FC<InputProps> = ({
   errText,
   className,
   onChange,
+  onKeyDown,
 }) => {
   const { theme } = useThemeContext();
 
@@ -43,6 +45,7 @@ const Input: FC<InputProps> = ({
           [styles.errorInput]: errText,
         })}
         type={inputType}
+        onKeyDown={onKeyDown}
         placeholder={placeholder}
         disabled={disabled}
         onChange={onChangeText}

@@ -1,0 +1,30 @@
+@import "src/assets/colors";
+
+.container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin-top: 50px;
+}
+.darkContainer {
+  svg > path {
+    fill: $white;
+  }
+  .title {
+    color: $white;
+  }
+}
+.title {
+  font-size: 18px;
+  font-weight: bold;
+  color: $secondary;
+  margin-top: 16px;
+}
+.description {
+  font-size: 16px;
+  color: $gray;
+  margin-top: 8px;
+}
