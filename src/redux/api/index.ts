@@ -50,16 +50,25 @@ const refreshToken = (refresh: string) => {
   return API.post("/auth/jwt/refresh/", { refresh });
 };
 
-const getMyPosts = (token: string) => {
+const getMyPosts = (token: string, offset: number) => {
   return API.get(
     "/blog/posts/my_posts/",
-    {},
+    { limit: PER_PAGE, offset },
     {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     }
   );
+};
+
+const addNewPost = (token: string, data: any) => {
+  return API.post("/blog/posts/", data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${token}`,
+    },
+  });
 };
 
 export default {
@@ -72,4 +81,5 @@ export default {
   verifyToken,
   refreshToken,
   getMyPosts,
+  addNewPost,
 };

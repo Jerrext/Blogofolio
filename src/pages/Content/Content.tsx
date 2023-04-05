@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { useEffect } from "react";
 import classnames from "classnames";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useParams } from "react-router-dom";
@@ -22,6 +22,7 @@ import {
 import { ButtonType, CardType } from "../../utils/@globalTypes";
 import { RoutesList } from "../Router";
 import styles from "./Content.module.scss";
+import Loader from "../../components/Loader/Loader";
 
 const Content = () => {
   const dispatch = useDispatch();
@@ -49,6 +50,7 @@ const Content = () => {
   const likedPosts = useSelector(PostSelectors.getLikedPosts);
   const dislikedPosts = useSelector(PostSelectors.getDislikedPosts);
   const bookmarkPosts = useSelector(PostSelectors.getBookmarkPosts);
+  const isSinglePostLoading = useSelector(PostSelectors.getSinglePostLoading);
 
   const likedIndex = likedPosts.findIndex((post) => post.id === singlePost?.id);
   const dislikedIndex = dislikedPosts.findIndex(
@@ -68,7 +70,9 @@ const Content = () => {
     singlePost && onChangeBookmarkStatus(singlePost);
   };
 
-  return (
+  return isSinglePostLoading ? (
+    <Loader />
+  ) : (
     singlePost && (
       <div className={styles.container}>
         <div className={styles.headerWrapper}>

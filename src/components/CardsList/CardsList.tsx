@@ -23,7 +23,7 @@ const CardsList: FC<CardsListProps> = ({ cardsList }) => {
       </div>
       <div className={styles.rightSideContainer}>
         {cardsList.map((item, index) => {
-          if (index > 5) {
+          if (index > 4) {
             return <Card key={item.id} card={item} size={CardSize.Small} />;
           }
         })}

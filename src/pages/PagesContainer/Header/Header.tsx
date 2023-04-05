@@ -37,10 +37,6 @@ const Header = () => {
     setOpened(!isOpened);
   };
 
-  const onChangeSearchInput = (value: string) => {
-    setSearchValue(value);
-  };
-
   const onSearchClick = () => {
     setInputOpened(true);
     if (isInputOpened) {
@@ -88,10 +84,11 @@ const Header = () => {
           {isInputOpened && (
             <div>
               <Input
+                value={searchValue}
                 placeholder="Search..."
                 onKeyDown={onEnterDown}
                 inputType="text"
-                onChange={onChangeSearchInput}
+                onChange={setSearchValue}
                 className={styles.searchInput}
               />
               <div

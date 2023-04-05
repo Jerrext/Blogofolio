@@ -1,12 +1,6 @@
 import React, { useEffect } from "react";
 
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Navigate,
-  useLocation,
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import PagesContainer from "./PagesContainer";
 import SignIn from "./FormPages/SignIn";
 import Home from "./Home";
@@ -18,8 +12,10 @@ import ResetPassword from "./FormPages/ResetPassword";
 import NewPassword from "./FormPages/NewPassword";
 import { useDispatch, useSelector } from "react-redux";
 import { AuthSelectors, getUserInfo } from "../redux/reducers/authSlice";
-import { getMyPosts } from "../redux/reducers/postSlice";
+import { PostSelectors, getMyPosts } from "../redux/reducers/postSlice";
 import Search from "./Search";
+import AddPost from "./AddPost/AddPost";
+import { PER_PAGE } from "../utils/constants";
 
 export enum RoutesList {
   Home = "/",
@@ -42,7 +38,6 @@ const Router = () => {
   useEffect(() => {
     if (isLoggedIn) {
       dispatch(getUserInfo());
-      dispatch(getMyPosts());
     }
   }, [isLoggedIn]);
 
@@ -55,7 +50,7 @@ const Router = () => {
           <Route
             path={RoutesList.AddPost}
             element={
-              isLoggedIn ? <Home /> : <Navigate to={RoutesList.SignIn} />
+              isLoggedIn ? <AddPost /> : <Navigate to={RoutesList.SignIn} />
             }
           />
           <Route path={RoutesList.Success} element={<Success />} />

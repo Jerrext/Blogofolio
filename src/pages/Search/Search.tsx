@@ -6,6 +6,7 @@ import Title from "../../components/Title";
 import { getSearchPosts, PostSelectors } from "../../redux/reducers/postSlice";
 import { SEARCH_VALUE } from "../../utils/constants";
 import styles from "./Search.module.scss";
+import Loader from "../../components/Loader/Loader";
 
 const Search = () => {
   const dispatch = useDispatch();
@@ -13,6 +14,7 @@ const Search = () => {
   const searchValue = useSelector(PostSelectors.getSearchValue);
   const searchCardList = useSelector(PostSelectors.getSearchPosts);
   const post = useSelector(PostSelectors.getPostValue);
+  const isSearchPostsLoading = useSelector(PostSelectors.getSearchPostsLoading);
 
   // Чтоб при обновлении страницы поиска не пропадал searchList
   useEffect(() => {
@@ -20,7 +22,9 @@ const Search = () => {
     newSearchValue && dispatch(getSearchPosts(newSearchValue));
   }, []);
 
-  return (
+  return isSearchPostsLoading ? (
+    <Loader />
+  ) : (
     <>
       <div className={styles.searchWrapper}>
         <Title title={`Search results '${searchValue}'`} />

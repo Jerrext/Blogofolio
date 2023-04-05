@@ -3,7 +3,12 @@ import { CardListType, CardType } from "../../utils/@globalTypes";
 import { SEARCH_VALUE } from "../../utils/constants";
 
 import { RootState } from "../store";
-import { GetAllPostsPayload, SetAllPostsPayload } from "./@types";
+import {
+  AddPostPayload,
+  GetAllPostsPayload,
+  GetMyPostsPayload,
+  SetPostsPayload,
+} from "./@types";
 
 export enum LikeStatus {
   Like = "like",
@@ -22,6 +27,10 @@ type PostState = {
   searchList: CardListType;
   searchValue: string;
   postsCount: number;
+  myPostsCount: number;
+  isAllPostsLoading: boolean;
+  isSearchPostsLoading: boolean;
+  isSinglePostLoading: boolean;
 };
 
 const initialState: PostState = {
@@ -36,6 +45,10 @@ const initialState: PostState = {
   searchList: [],
   searchValue: "",
   postsCount: 0,
+  myPostsCount: 0,
+  isAllPostsLoading: false,
+  isSearchPostsLoading: false,
+  isSinglePostLoading: false,
 };
 
 const postSlice = createSlice({
@@ -45,7 +58,7 @@ const postSlice = createSlice({
     getAllPosts: (_, __: PayloadAction<GetAllPostsPayload>) => {},
     setAllPosts: (
       state,
-      { payload: { postsCount, cardList } }: PayloadAction<SetAllPostsPayload>
+      { payload: { postsCount, cardList } }: PayloadAction<SetPostsPayload>
     ) => {
       state.postsList = cardList;
       state.postsCount = postsCount;
@@ -101,15 +114,29 @@ const postSlice = createSlice({
         state.savedPosts.splice(bookmarkIndex, 1);
       }
     },
-    getMyPosts(_, __: PayloadAction<undefined>) {},
-    setMyPosts(state, action: PayloadAction<CardListType>) {
-      state.myPosts = action.payload;
+    getMyPosts(_, __: PayloadAction<GetMyPostsPayload>) {},
+    setMyPosts(
+      state,
+      { payload: { postsCount, cardList } }: PayloadAction<SetPostsPayload>
+    ) {
+      state.myPosts = cardList;
+      state.myPostsCount = postsCount;
     },
     getSearchPosts(state, action: PayloadAction<string>) {
       state.searchValue = action.payload;
     },
     setSearchPosts(state, action: PayloadAction<CardListType>) {
       state.searchList = action.payload;
+    },
+    addNewPost: (_, __: PayloadAction<AddPostPayload>) => {},
+    setAllPostsLoading: (state, action: PayloadAction<boolean>) => {
+      state.isAllPostsLoading = action.payload;
+    },
+    setSearchPostsLoading: (state, action: PayloadAction<boolean>) => {
+      state.isSearchPostsLoading = action.payload;
+    },
+    setSinglePostLoading: (state, action: PayloadAction<boolean>) => {
+      state.isSinglePostLoading = action.payload;
     },
   },
 });
@@ -127,6 +154,10 @@ export const {
   setMyPosts,
   getSearchPosts,
   setSearchPosts,
+  addNewPost,
+  setAllPostsLoading,
+  setSearchPostsLoading,
+  setSinglePostLoading,
 } = postSlice.actions;
 export default postSlice.reducer;
 
@@ -142,4 +173,8 @@ export const PostSelectors = {
   getSearchValue: (state: RootState) => state.post.searchValue,
   getSearchPosts: (state: RootState) => state.post.searchList,
   getAllPostsCount: (state: RootState) => state.post.postsCount,
+  getMyPostsCount: (state: RootState) => state.post.myPostsCount,
+  getAllPostsLoading: (state: RootState) => state.post.isAllPostsLoading,
+  getSearchPostsLoading: (state: RootState) => state.post.isSearchPostsLoading,
+  getSinglePostLoading: (state: RootState) => state.post.isSinglePostLoading,
 };

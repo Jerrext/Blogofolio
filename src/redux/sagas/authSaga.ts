@@ -74,7 +74,7 @@ function* logOutUserWorker() {
   localStorage.removeItem(REFRESH_TOKEN_KEY);
   yield put(setLoggedIn(false));
   yield put(setUserInfo(null));
-  yield put(setMyPosts([]));
+  yield put(setMyPosts({ postsCount: 0, cardList: [] }));
 }
 
 function* getUserInfoWorker() {

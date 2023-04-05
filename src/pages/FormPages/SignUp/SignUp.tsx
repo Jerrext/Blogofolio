@@ -71,24 +71,6 @@ const SignUp = () => {
   //   );
   // }, [username, email, password, confirmPassword]);
 
-  const usernemaOnChange = (value: string) => {
-    setUsername(value);
-  };
-
-  console.log(username, email);
-
-  const emailOnChange = (value: string) => {
-    setEmail(value);
-  };
-
-  const passOnChange = (value: string) => {
-    setPassword(value);
-  };
-
-  const confirmPassOnChange = (value: string) => {
-    setConfirmPassword(value);
-  };
-
   const onSignUpClick = () => {
     // Валидация на кнопку
     // if (username.length === 0) {
@@ -124,32 +106,36 @@ const SignUp = () => {
     <FormPage titleFormPage="Sign Up">
       <div className={styles.inputsWrapper}>
         <Input
+          value={username}
           title="Name"
           placeholder="Your name"
           inputType="text"
           errText={nameError}
-          onChange={usernemaOnChange}
+          onChange={setUsername}
         />
         <Input
+          value={email}
           title="Email"
           placeholder="Your email"
           inputType="email"
           errText={emailError}
-          onChange={emailOnChange}
+          onChange={setEmail}
         />
         <Input
+          value={password}
           title="Password"
           placeholder="Your password"
           inputType="password"
           errText={passwordError}
-          onChange={passOnChange}
+          onChange={setPassword}
         />
         <Input
+          value={confirmPassword}
           title="Confirm password"
           placeholder="Confirm password"
           inputType="password"
           errText={passwordError}
-          onChange={confirmPassOnChange}
+          onChange={setConfirmPassword}
         />
         <div className={styles.buttonWrapper}>
           <Button
