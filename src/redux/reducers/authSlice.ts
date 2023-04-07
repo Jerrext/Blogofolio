@@ -47,6 +47,7 @@ export const {
   setUserInfo,
 } = authSlice.actions;
 export default authSlice.reducer;
+export const authName = authSlice.name;
 
 export const AuthSelectors = {
   getLoggedIn: (state: RootState) => state.auth.isLoggedIn,

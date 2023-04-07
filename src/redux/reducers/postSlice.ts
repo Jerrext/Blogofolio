@@ -7,7 +7,9 @@ import {
   AddPostPayload,
   GetAllPostsPayload,
   GetMyPostsPayload,
+  GetSearchPostsPayload,
   SetPostsPayload,
+  SetSearchedPostsPayload,
 } from "./@types";
 
 export enum LikeStatus {
@@ -31,6 +33,7 @@ type PostState = {
   isAllPostsLoading: boolean;
   isSearchPostsLoading: boolean;
   isSinglePostLoading: boolean;
+  searchedPostsCount: number;
 };
 
 const initialState: PostState = {
@@ -49,6 +52,7 @@ const initialState: PostState = {
   isAllPostsLoading: false,
   isSearchPostsLoading: false,
   isSinglePostLoading: false,
+  searchedPostsCount: 0,
 };
 
 const postSlice = createSlice({
@@ -122,11 +126,17 @@ const postSlice = createSlice({
       state.myPosts = cardList;
       state.myPostsCount = postsCount;
     },
-    getSearchPosts(state, action: PayloadAction<string>) {
-      state.searchValue = action.payload;
+    getSearchPosts(state, action: PayloadAction<GetSearchPostsPayload>) {
+      state.searchValue = action.payload.searchValue;
     },
-    setSearchPosts(state, action: PayloadAction<CardListType>) {
-      state.searchList = action.payload;
+    setSearchPosts(state, action: PayloadAction<SetSearchedPostsPayload>) {
+      const { isOverwrite, cardList, postsCount } = action.payload;
+      state.searchedPostsCount = postsCount;
+      if (isOverwrite) {
+        state.searchList = cardList;
+      } else {
+        state.searchList.push(...cardList);
+      }
     },
     addNewPost: (_, __: PayloadAction<AddPostPayload>) => {},
     setAllPostsLoading: (state, action: PayloadAction<boolean>) => {
@@ -160,6 +170,7 @@ export const {
   setSinglePostLoading,
 } = postSlice.actions;
 export default postSlice.reducer;
+export const postName = postSlice.name;
 
 export const PostSelectors = {
   getPostValue: (state: RootState) => state.post.postValue,
@@ -177,4 +188,5 @@ export const PostSelectors = {
   getAllPostsLoading: (state: RootState) => state.post.isAllPostsLoading,
   getSearchPostsLoading: (state: RootState) => state.post.isSearchPostsLoading,
   getSinglePostLoading: (state: RootState) => state.post.isSinglePostLoading,
+  getSearchedPostsCount: (state: RootState) => state.post.searchedPostsCount,
 };
