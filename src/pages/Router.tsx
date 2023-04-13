@@ -27,7 +27,7 @@ export enum RoutesList {
   Confirm = "/activate/:uid/:token",
   Success = "/sign-up/success",
   ResetPassword = "/reset-password",
-  NewPassword = "/new-password",
+  NewPassword = "/password/reset/confirm/:uid/:token",
   Default = "*",
 }
 

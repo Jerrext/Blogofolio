@@ -41,7 +41,6 @@ const SignUp = () => {
   };
 
   useEffect(() => {
-    console.log(nameTouched);
     if (username.length === 0 && nameTouched) {
       setNameError("Name is required field");
     } else {

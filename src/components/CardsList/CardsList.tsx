@@ -15,7 +15,7 @@ const CardsList: FC<CardsListProps> = ({ cardsList }) => {
         <Card card={cardsList[0]} size={CardSize.Large} />
         <div className={styles.mediumContainer}>
           {cardsList.map((item, index) => {
-            if (index > 0 && index < 5) {
+            if (index > 0 && index <= 4) {
               return <Card key={item.id} card={item} size={CardSize.Medium} />;
             }
           })}

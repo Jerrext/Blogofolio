@@ -40,10 +40,13 @@ const Content = () => {
 
   useEffect(() => {
     postId && dispatch(getSinglePost(postId));
+  }, [postId]);
+
+  useEffect(() => {
     return () => {
       dispatch(setSinglePost(null));
     };
-  }, []);
+  }, [])
 
   const { theme } = useThemeContext();
 
