@@ -71,6 +71,14 @@ const addNewPost = (token: string, data: any) => {
   });
 };
 
+const resetPassword = (data: any) => {
+  return API.post("/auth/users/reset_password/", data);
+};
+
+const newPassword = (data: any) => {
+  return API.post("/auth/users/reset_password_confirm/", data);
+};
+
 export default {
   getPosts,
   getPost,
@@ -82,4 +90,6 @@ export default {
   refreshToken,
   getMyPosts,
   addNewPost,
+  resetPassword,
+  newPassword,
 };

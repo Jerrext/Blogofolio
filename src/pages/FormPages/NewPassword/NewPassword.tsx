@@ -3,8 +3,16 @@ import Button from "../../../components/Button";
 import FormPage from "../FormPage";
 import { ButtonType } from "../../../utils/@globalTypes";
 import Input from "../../../components/Input";
+import { useDispatch } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { newPassword } from "../../../redux/reducers/authSlice";
+import { RoutesList } from "../../Router";
 
 const NewPassword = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { uid, token } = useParams();
+
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
@@ -23,7 +31,16 @@ const NewPassword = () => {
     return passwordError.length === 0;
   }, [passwordError]);
 
-  const setPasswordOnClick = () => {};
+  const setPasswordOnClick = () => {
+    if (uid && token) {
+      dispatch(
+        newPassword({
+          data: { uid, token, new_password: password },
+          callback: () => navigate(RoutesList.SignIn),
+        })
+      );
+    }
+  };
 
   return (
     <FormPage titleFormPage="New password">

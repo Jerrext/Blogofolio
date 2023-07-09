@@ -19,6 +19,7 @@ const themeSlice = createSlice({
 
 export const { changeTheme } = themeSlice.actions;
 export default themeSlice.reducer;
+export const themeName = themeSlice.name;
 
 export const ThemeSelectors = {
   getThemeValue: (state: RootState) => state.theme.themeValue,

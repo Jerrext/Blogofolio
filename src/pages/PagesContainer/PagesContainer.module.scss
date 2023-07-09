@@ -2,6 +2,8 @@
 
 .container {
   background-color: $extra-light;
+  overflow: auto;
+  height: 100vh;
 }
 
 .darkContainer {

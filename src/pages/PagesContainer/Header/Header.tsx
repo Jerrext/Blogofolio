@@ -40,7 +40,8 @@ const Header = () => {
   const onSearchClick = () => {
     setInputOpened(true);
     if (isInputOpened) {
-      dispatch(getSearchPosts(searchValue));
+      dispatch(getSearchPosts({ searchValue, isOverwrite: true, offset: 0 }));
+      // setSearchValue("");
       sessionStorage.setItem(SEARCH_VALUE, searchValue);
       navigate(RoutesList.Search);
     }

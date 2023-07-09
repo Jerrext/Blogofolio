@@ -6,8 +6,11 @@ import { ButtonType } from "../../../utils/@globalTypes";
 import { useNavigate } from "react-router-dom";
 import { RoutesList } from "../../Router";
 import Input from "../../../components/Input";
+import { useDispatch } from "react-redux";
+import { resetPassword } from "../../../redux/reducers/authSlice";
 
 const ResetPassword = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -26,7 +29,12 @@ const ResetPassword = () => {
   }, [email]);
 
   const onHomeBtnClick = () => {
-    navigate(RoutesList.Home);
+    dispatch(
+      resetPassword({
+        data: { email },
+        callback: () => navigate(RoutesList.Home),
+      })
+    );
   };
 
   return (
@@ -47,7 +55,7 @@ const ResetPassword = () => {
         />
       </div>
       <Button
-        title={"Go to home"}
+        title={"Reset"}
         type={ButtonType.Primary}
         onClick={onHomeBtnClick}
       />

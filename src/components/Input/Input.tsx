@@ -14,6 +14,7 @@ type InputProps = {
   errText?: string;
   className?: string;
   onChange: (value: string) => void;
+  onBlur?: () => void;
 };
 
 const Input: FC<InputProps> = ({
@@ -26,6 +27,7 @@ const Input: FC<InputProps> = ({
   errText,
   className,
   onChange,
+  onBlur,
   onKeyDown,
 }) => {
   const { theme } = useThemeContext();
@@ -68,6 +70,7 @@ const Input: FC<InputProps> = ({
           type={inputType}
           onKeyDown={onKeyDown}
           placeholder={placeholder}
+          onBlur={onBlur}
           disabled={disabled}
           onChange={onChangeText}
         />

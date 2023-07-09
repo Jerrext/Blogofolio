@@ -1,4 +1,4 @@
-import { takeLatest, all, call, put } from "redux-saga/effects";
+import { takeLatest, all, call, put, takeLeading } from "redux-saga/effects";
 import { ApiResponse } from "apisauce";
 
 import {
@@ -24,6 +24,7 @@ import {
   AddPostPayload,
   GetAllPostsPayload,
   GetMyPostsPayload,
+  GetSearchPostsPayload,
 } from "../reducers/@types";
 
 function* getAllPostsWorker(action: PayloadAction<GetAllPostsPayload>) {
@@ -68,15 +69,22 @@ function* getMyPostsWorker(action: PayloadAction<GetMyPostsPayload>) {
   }
 }
 
-function* getSearchPostsWorker(action: PayloadAction<string>) {
+function* getSearchPostsWorker(action: PayloadAction<GetSearchPostsPayload>) {
   yield put(setSearchPostsLoading(true));
+  const { searchValue, isOverwrite, offset } = action.payload;
   const { ok, data, problem }: ApiResponse<AllPostsResponse> = yield call(
     API.getPosts,
-    0,
-    action.payload
+    offset,
+    searchValue
   );
   if (ok && data) {
-    yield put(setSearchPosts(data.results));
+    yield put(
+      setSearchPosts({
+        cardList: data.results,
+        postsCount: data.count,
+        isOverwrite,
+      })
+    );
   } else {
     console.warn("Error getting search posts", problem);
   }
@@ -101,7 +109,7 @@ export default function* postsSaga() {
     takeLatest(getAllPosts, getAllPostsWorker),
     takeLatest(getSinglePost, getSinglePostWorker),
     takeLatest(getMyPosts, getMyPostsWorker),
-    takeLatest(getSearchPosts, getSearchPostsWorker),
+    takeLeading(getSearchPosts, getSearchPostsWorker),
     takeLatest(addNewPost, addNewPostWorker),
   ]);
 }

@@ -7,6 +7,10 @@ import {
   ActivateUserPayload,
   SignUpUserPayload,
   SignInUserDataPayload,
+  ResetPasswordData,
+  NewPasswordData,
+  ResetPasswordPayload,
+  NewPasswordPayload,
 } from "./@types";
 
 type AuthState = {
@@ -34,6 +38,8 @@ const authSlice = createSlice({
     setUserInfo: (state, action: PayloadAction<getUserInfoResponse | null>) => {
       state.userInfo = action.payload;
     },
+    resetPassword: (_, __: PayloadAction<ResetPasswordPayload>) => {},
+    newPassword: (_, __: PayloadAction<NewPasswordPayload>) => {},
   },
 });
 
@@ -45,8 +51,11 @@ export const {
   setLoggedIn,
   getUserInfo,
   setUserInfo,
+  resetPassword,
+  newPassword,
 } = authSlice.actions;
 export default authSlice.reducer;
+export const authName = authSlice.name;
 
 export const AuthSelectors = {
   getLoggedIn: (state: RootState) => state.auth.isLoggedIn,

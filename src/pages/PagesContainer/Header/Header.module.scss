@@ -49,6 +49,9 @@
   flex-direction: column;
   justify-content: space-between;
   z-index: 999;
+  & > div:first-child > div {
+    width: 100%;
+  }
 }
 
 .navBtn {
