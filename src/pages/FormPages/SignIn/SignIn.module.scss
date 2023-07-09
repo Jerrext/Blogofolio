@@ -10,7 +10,12 @@
   margin-top: 16px;
   display: flex;
   justify-content: end;
+  color: $secondary;
   cursor: pointer;
+}
+
+.darkForgotPass {
+  color: $white;
 }
 
 .buttonWrapper {

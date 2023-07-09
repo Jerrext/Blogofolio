@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { useDispatch } from "react-redux";
 
 import { Theme } from "../../context/Theme/Context";
 import { RootState } from "../store";

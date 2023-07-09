@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import PagesContainer from "./PagesContainer";
@@ -10,6 +10,8 @@ import Confirmation from "./FormPages/Confirmation";
 import Content from "./Content";
 import ResetPassword from "./FormPages/ResetPassword";
 import NewPassword from "./FormPages/NewPassword";
+import { useDispatch, useSelector } from "react-redux";
+import { AuthSelectors, getUserInfo } from "../redux/reducers/authSlice";
 
 export enum RoutesList {
   Home = "/",
@@ -26,7 +28,12 @@ export enum RoutesList {
 }
 
 const Router = () => {
-  const isLoggedIn = true;
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector(AuthSelectors.getLoggedIn);
+
+  useEffect(() => {
+    isLoggedIn && dispatch(getUserInfo());
+  }, [isLoggedIn]);
 
   return (
     <BrowserRouter>
@@ -41,8 +48,18 @@ const Router = () => {
             }
           />
           <Route path={RoutesList.Success} element={<Success />} />
-          <Route path={RoutesList.SignIn} element={<SignIn />} />
-          <Route path={RoutesList.SignUp} element={<SignUp />} />
+          <Route
+            path={RoutesList.SignIn}
+            element={
+              !isLoggedIn ? <SignIn /> : <Navigate to={RoutesList.Home} />
+            }
+          />
+          <Route
+            path={RoutesList.SignUp}
+            element={
+              !isLoggedIn ? <SignUp /> : <Navigate to={RoutesList.Home} />
+            }
+          />
           <Route path={RoutesList.Confirm} element={<Confirmation />} />
           <Route path={RoutesList.ResetPassword} element={<ResetPassword />} />
           <Route path={RoutesList.NewPassword} element={<NewPassword />} />

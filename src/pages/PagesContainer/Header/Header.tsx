@@ -9,8 +9,10 @@ import classNames from "classnames";
 import MenuButton from "../../../components/MenuButton";
 import { UserIcon } from "../../../assets/icons";
 import { ButtonType } from "../../../utils/@globalTypes";
-
+import { useDispatch, useSelector } from "react-redux";
+import { AuthSelectors, logOutUser } from "../../../redux/reducers/authSlice";
 const Header = () => {
+  const dispatch = useDispatch();
   const [isOpened, setOpened] = useState(false);
 
   const menuButtonOnClick = () => {
@@ -24,7 +26,12 @@ const Header = () => {
     navigate(RoutesList.SignIn);
   };
 
-  const isLoggedIn = false;
+  const logOutBtnOnClick = () => {
+    dispatch(logOutUser());
+  };
+
+  const isLoggedIn = useSelector(AuthSelectors.getLoggedIn);
+  const name = useSelector(AuthSelectors.getUserName);
 
   const navButtonsList = useMemo(
     () => [
@@ -44,12 +51,14 @@ const Header = () => {
     [isLoggedIn]
   );
 
+  const userName = name ? name : "Одуванчик";
+
   return (
     <>
       <div className={styles.wrapper}>
         <MenuButton isOpened={isOpened} menuButtonOnClick={menuButtonOnClick} />
         {isLoggedIn ? (
-          <UserName userName={"Artem Malkin"} />
+          <UserName userName={userName} />
         ) : (
           <Button
             title={<UserIcon />}
@@ -62,7 +71,7 @@ const Header = () => {
       {isOpened && (
         <div className={styles.menuWrapper}>
           <div>
-            {isLoggedIn && <UserName userName={"Artem Malkin"} />}
+            {isLoggedIn && <UserName userName={userName} />}
             {navButtonsList.map(({ title, key }) => {
               return (
                 <NavLink
@@ -81,7 +90,7 @@ const Header = () => {
             <ThemeSwitcher />
             <Button
               title={isLoggedIn ? "Log out" : "Sign In"}
-              onClick={isLoggedIn ? () => {} : signInBtnOnClick}
+              onClick={isLoggedIn ? logOutBtnOnClick : signInBtnOnClick}
               type={ButtonType.Secondary}
               className={styles.bottomBtn}
             />

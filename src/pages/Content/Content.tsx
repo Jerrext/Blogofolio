@@ -11,7 +11,14 @@ import {
 import Button from "../../components/Button";
 import Title from "../../components/Title";
 import { Theme, useThemeContext } from "../../context/Theme/Context";
-import { getSinglePost, LikeStatus, PostSelectors, setBookmarkStatus, setSinglePost, setStatus } from "../../redux/reducers/postSlice";
+import {
+  getSinglePost,
+  LikeStatus,
+  PostSelectors,
+  setBookmarkStatus,
+  setSinglePost,
+  setStatus,
+} from "../../redux/reducers/postSlice";
 import { ButtonType, CardType } from "../../utils/@globalTypes";
 import { RoutesList } from "../Router";
 import styles from "./Content.module.scss";
@@ -61,69 +68,71 @@ const Content = () => {
     singlePost && onChangeBookmarkStatus(singlePost);
   };
 
-  return singlePost && (
-    <div className={styles.conrainer}>
-      <div className={styles.headerWrapper}>
-        <div className={styles.navigation}>
-          <NavLink
-            to={RoutesList.Home}
-            className={classnames(styles.navItem, {
-              [styles.darkNavItem]: isDark,
-            })}
-          >
-            Home
-          </NavLink>
-          <div className={styles.navItem}>Post {singlePost.id}</div>
+  return (
+    singlePost && (
+      <div className={styles.container}>
+        <div className={styles.headerWrapper}>
+          <div className={styles.navigation}>
+            <NavLink
+              to={RoutesList.Home}
+              className={classnames(styles.navItem, {
+                [styles.darkNavItem]: isDark,
+              })}
+            >
+              Home
+            </NavLink>
+            <div className={styles.navItem}>Post {singlePost.id}</div>
+          </div>
+          <Title title={singlePost.title} />
         </div>
-        <Title title={singlePost.title} />
-      </div>
-      <div>
-        <img src={singlePost.image} alt="image" className={styles.image} />
-      </div>
-      <p
-        className={classnames(styles.text, {
-          [styles.darkText]: isDark,
-        })}
-      >
-        {singlePost.text}
-      </p>
-      <div className={styles.btnWrapper}>
-        <div className={styles.leftBtn}>
+        <div>
+          <img src={singlePost.image} alt="image" className={styles.image} />
+        </div>
+        <p
+          className={classnames(styles.text, {
+            [styles.darkText]: isDark,
+          })}
+        >
+          {singlePost.text}
+        </p>
+        <div className={styles.btnWrapper}>
+          <div className={styles.leftBtn}>
+            <Button
+              title={
+                <div className={styles.iconWrapper}>
+                  <LikeIcon />
+                  {likedIndex > -1 && <div>1</div>}
+                </div>
+              }
+              type={ButtonType.Secondary}
+              onClick={onStatusClick(LikeStatus.Like)}
+              className={styles.statusBtn}
+            />
+            <Button
+              title={
+                <div className={styles.iconWrapper}>
+                  <DislikeIcon />
+                  {dislikedIndex > -1 && <div>1</div>}
+                </div>
+              }
+              type={ButtonType.Secondary}
+              onClick={onStatusClick(LikeStatus.Dislike)}
+              className={styles.statusBtn}
+            />
+          </div>
           <Button
             title={
-              <div className={styles.iconWrapper}>
-                <LikeIcon />
-                {likedIndex > -1 && <div>1</div>}
+              <div className={styles.rightBtn}>
+                {bookmarkIndex > -1 ? <FilledBookmarkIcon /> : <BookmarkIcon />}
+                <div>Add to favorites</div>
               </div>
             }
             type={ButtonType.Secondary}
-            onClick={onStatusClick(LikeStatus.Like)}
-            className={styles.statusBtn}
-          />
-          <Button
-            title={
-              <div className={styles.iconWrapper}>
-                <DislikeIcon />
-                {dislikedIndex > -1 && <div>1</div>}
-              </div>
-            }
-            type={ButtonType.Secondary}
-            onClick={onStatusClick(LikeStatus.Dislike)}
-            className={styles.statusBtn}
+            onClick={onBookmarkStatusClick}
           />
         </div>
-        <Button
-          title={
-            <div className={styles.rightBtn}>
-              {bookmarkIndex > -1 ? <FilledBookmarkIcon /> : <BookmarkIcon />}
-              <div>Add to favorites</div>
-            </div>
-          }
-          type={ButtonType.Secondary}
-          onClick={onBookmarkStatusClick}
-        />
       </div>
-    </div>
+    )
   );
 };
 

@@ -12,3 +12,14 @@ export type SignUpUserResponse = {
   email: string;
   id: number;
 };
+
+export type SignInUserResponse = {
+  access: string;
+  refresh: string;
+};
+
+export type getUserInfoResponse = {
+  username: string;
+  id: number;
+  email: string;
+};
