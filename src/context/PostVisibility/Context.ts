@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
-import { CardType } from "../../components/Card";
 import { LikeStatus } from "../../redux/reducers/postSlice";
+import { CardType } from "../../utils/@globalTypes";
 
 const initialState = {
   postVisibility: false,

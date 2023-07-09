@@ -7,10 +7,11 @@ import Home from "./Home";
 import Success from "./FormPages/Success";
 import SignUp from "./FormPages/SignUp";
 import Confirmation from "./FormPages/Confirmation";
+import Content from "./Content";
 
 export enum RoutesList {
   Home = "/",
-  SinglePost = "/blog/:id",
+  SinglePost = "/blog/:postId",
   Search = "/blog/search",
   AddPost = "/blog/add",
   SignIn = "/sign-in",
@@ -22,11 +23,16 @@ export enum RoutesList {
 
 const Router = () => {
   const isLoggedIn = false;
+
   return (
     <BrowserRouter>
       <Routes>
         <Route path={RoutesList.Home} element={<PagesContainer />}>
           <Route path={RoutesList.Home} element={<Home />} />
+          <Route
+            path={RoutesList.SinglePost}
+            element={<Content />}
+          />
           <Route
             path={RoutesList.AddPost}
             element={

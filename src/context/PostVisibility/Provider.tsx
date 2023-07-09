@@ -1,6 +1,6 @@
 import React, { FC, ReactNode } from "react";
-import { CardType } from "../../components/Card";
 import { LikeStatus } from "../../redux/reducers/postSlice";
+import { CardListType, CardType } from "../../utils/@globalTypes";
 import { PostVisibilityContext } from "./Context";
 
 type PostVisibilityProviderProps = {
@@ -11,10 +11,10 @@ type PostVisibilityProviderProps = {
     isPostOpened: boolean
   ) => void;
   onChangeStatus: (status: LikeStatus, card: CardType) => void;
-  likedPosts: CardType[];
-  dislikedPosts: CardType[];
+  likedPosts: CardListType;
+  dislikedPosts: CardListType;
   onChangeBookmarkStatus: (card: CardType) => void;
-  bookmarkPosts: CardType[];
+  bookmarkPosts: CardListType;
 };
 const PostVisibilityProvider: FC<PostVisibilityProviderProps> = ({
   children,

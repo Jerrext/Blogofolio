@@ -16,6 +16,18 @@
   padding: 82px 77px 54px 73px;
   background-color: #fff;
   position: relative;
+  max-width: 886px;
+  width: 100%;
+}
+
+.darkWrapper {
+  background-color: $secondary;
+}
+
+.darkCloseBtn {
+  svg > path {
+    fill: $white;
+  }
 }
 
 .closeBtn {

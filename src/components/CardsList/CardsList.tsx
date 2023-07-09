@@ -1,9 +1,10 @@
 import React, { FC } from "react";
-import Card, { CardType, CardSize } from "../Card";
+import { CardListType, CardSize } from "../../utils/@globalTypes";
+import Card from "../Card";
 import styles from "./CardsList.module.scss";
 
 type CardsListProps = {
-  cardsList: CardType[];
+  cardsList: CardListType;
 };
 
 const CardsList: FC<CardsListProps> = ({ cardsList }) => {

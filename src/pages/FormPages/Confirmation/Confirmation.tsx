@@ -1,9 +1,10 @@
 import React from "react";
 import styles from "./Confirmation.module.scss";
-import Button, { ButtonType } from "../../../components/Button";
+import Button from "../../../components/Button";
 import FormPage from "../FormPage";
 import { useNavigate } from "react-router-dom";
 import { RoutesList } from "../../Router";
+import { ButtonType } from "../../../utils/@globalTypes";
 
 const Confirmation = () => {
   const navigate = useNavigate();

@@ -2,6 +2,9 @@
 
 .wrapper {
   max-width: 1120px;
+  .btnHome {
+    color: $secondary;
+  }
 }
 
 .btnHome {
@@ -19,6 +22,9 @@
 
 .darkWrapper {
   color: $white;
+  .btnHome {
+    color: $white;
+  }
 }
 
 .frameWrapper {
