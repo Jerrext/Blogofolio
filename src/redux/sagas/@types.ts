@@ -23,3 +23,9 @@ export type getUserInfoResponse = {
   id: number;
   email: string;
 };
+
+export type UserInfoResponse = {
+  username: string;
+  id: number;
+  email: string;
+};

@@ -12,6 +12,7 @@ import ResetPassword from "./FormPages/ResetPassword";
 import NewPassword from "./FormPages/NewPassword";
 import { useDispatch, useSelector } from "react-redux";
 import { AuthSelectors, getUserInfo } from "../redux/reducers/authSlice";
+import { getMyPosts } from "../redux/reducers/postSlice";
 
 export enum RoutesList {
   Home = "/",
@@ -32,7 +33,10 @@ const Router = () => {
   const isLoggedIn = useSelector(AuthSelectors.getLoggedIn);
 
   useEffect(() => {
-    isLoggedIn && dispatch(getUserInfo());
+    if (isLoggedIn) {
+      dispatch(getUserInfo());
+      dispatch(getMyPosts());
+    }
   }, [isLoggedIn]);
 
   return (

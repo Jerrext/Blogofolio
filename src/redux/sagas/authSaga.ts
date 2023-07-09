@@ -23,6 +23,8 @@ import {
   SignUpUserResponse,
 } from "./@types";
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "../../utils/constants";
+import callCheckingAuth from "./callCheckingAuth";
+import { setMyPosts } from "../reducers/postSlice";
 
 function* signUpUserWorker(action: PayloadAction<SignUpUserPayload>) {
   const { data, callback } = action.payload;
@@ -72,20 +74,16 @@ function* logOutUserWorker() {
   localStorage.removeItem(REFRESH_TOKEN_KEY);
   yield put(setLoggedIn(false));
   yield put(setUserInfo(null));
+  yield put(setMyPosts([]));
 }
 
 function* getUserInfoWorker() {
-  const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY);
-  if (accessToken) {
-    const { ok, problem, data }: ApiResponse<getUserInfoResponse> = yield call(
-      API.getUserInfo,
-      accessToken
-    );
-    if (data && ok) {
-      yield put(setUserInfo(data));
-    } else {
-      console.warn("Error get user info", problem);
-    }
+  const { ok, problem, data }: ApiResponse<getUserInfoResponse> =
+    yield callCheckingAuth(API.getUserInfo);
+  if (data && ok) {
+    yield put(setUserInfo(data));
+  } else {
+    console.warn("Error get user info", problem);
   }
 }
 
