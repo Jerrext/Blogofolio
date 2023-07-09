@@ -1,5 +1,9 @@
 @import "src/assets/colors";
 
+.inputWrapper {
+  position: relative;
+}
+
 .title {
   font-weight: 600;
   font-size: 16px;
@@ -45,7 +49,8 @@
 }
 
 .errorText {
-  margin-top: 16px;
+  position: absolute;
+  bottom: -27px;
   color: $error;
   font-weight: 400;
   font-size: 16px;

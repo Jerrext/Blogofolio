@@ -8,6 +8,8 @@ import Success from "./FormPages/Success";
 import SignUp from "./FormPages/SignUp";
 import Confirmation from "./FormPages/Confirmation";
 import Content from "./Content";
+import ResetPassword from "./FormPages/ResetPassword";
+import NewPassword from "./FormPages/NewPassword";
 
 export enum RoutesList {
   Home = "/",
@@ -16,23 +18,22 @@ export enum RoutesList {
   AddPost = "/blog/add",
   SignIn = "/sign-in",
   SignUp = "/sign-up",
-  Confirm = "/sign-up/confirm",
+  Confirm = "/activate/:uid/:token",
   Success = "/sign-up/success",
+  ResetPassword = "/reset-password",
+  NewPassword = "/new-password",
   Default = "*",
 }
 
 const Router = () => {
-  const isLoggedIn = false;
+  const isLoggedIn = true;
 
   return (
     <BrowserRouter>
       <Routes>
         <Route path={RoutesList.Home} element={<PagesContainer />}>
           <Route path={RoutesList.Home} element={<Home />} />
-          <Route
-            path={RoutesList.SinglePost}
-            element={<Content />}
-          />
+          <Route path={RoutesList.SinglePost} element={<Content />} />
           <Route
             path={RoutesList.AddPost}
             element={
@@ -43,6 +44,8 @@ const Router = () => {
           <Route path={RoutesList.SignIn} element={<SignIn />} />
           <Route path={RoutesList.SignUp} element={<SignUp />} />
           <Route path={RoutesList.Confirm} element={<Confirmation />} />
+          <Route path={RoutesList.ResetPassword} element={<ResetPassword />} />
+          <Route path={RoutesList.NewPassword} element={<NewPassword />} />
           <Route path={RoutesList.Default} element={<div>404</div>} />
         </Route>
       </Routes>
