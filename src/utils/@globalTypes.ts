@@ -15,10 +15,18 @@ export enum CardSize {
   Large,
   Medium,
   Small,
+  Search,
 }
 
 export enum ButtonType {
   Primary = "Primary",
   Secondary = "Secondary",
   Error = "Error",
+}
+
+export enum TabsNames {
+  All,
+  MyPosts,
+  Favorites,
+  Popular,
 }

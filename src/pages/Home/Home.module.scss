@@ -1,0 +1,117 @@
+@import "src/assets/colors";
+
+.wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.cardListWrapper {
+  flex: 1;
+  display: flex;
+}
+
+.modalActive {
+  background: rgba(38, 34, 47, 0.5);
+}
+
+.pagesContainer {
+  margin: 72px 0 0;
+  display: flex;
+  padding: 0;
+}
+.pageNumber {
+  list-style-type: none;
+  margin-right: 8px;
+  display: flex;
+  // width: 28px;
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+  border-radius: 2px;
+  color: #53607a;
+  outline: none;
+  user-select: none;
+  &:hover {
+    cursor: pointer;
+    background-color: $primary-secondary;
+    color: $white;
+  }
+}
+
+.linkPage {
+  padding: 10px;
+  outline: none;
+  &:focus {
+    outline: none;
+  }
+}
+
+.darkLinkPage {
+  color: $white;
+  svg > path {
+    fill: $white;
+  }
+}
+
+.activePageNumber {
+  box-sizing: border-box;
+  border: 1px solid $primary;
+  color: $primary;
+}
+
+.arrowButton {
+  align-items: flex-start;
+  list-style-type: none;
+  padding: 4px;
+  border-radius: 4px;
+  user-select: none;
+  position: relative;
+
+  &:hover {
+    svg > path {
+      fill: $white;
+    }
+    background-color: $primary-secondary;
+    cursor: pointer;
+  }
+  &:first-child {
+    margin-right: auto;
+  }
+  &:last-child {
+    margin-left: auto;
+    a > svg {
+      transform: rotate(180deg) translate(50%, 50%);
+    }
+  }
+  a > svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+.blockedButtonPosts {
+  &:hover {
+    background-color: transparent;
+    cursor: not-allowed;
+
+    a > svg > path {
+      fill: $gray;
+    }
+  }
+  a > svg > path {
+    fill: $gray;
+  }
+}
+
+.orderControlsWrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+  margin-top: 20px;
+}
+
+.activeBtn {
+  background-color: $medium;
+}

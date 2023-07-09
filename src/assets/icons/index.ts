@@ -9,3 +9,6 @@ export { MoonIcon } from "./MoonIcon";
 export { UserIcon } from "./UserIcon";
 export { ClosePostIcon } from "./ClosePostIcon";
 export { FilledBookmarkIcon } from "./FilledBookmarkIcon";
+export { NoContentIcon } from "./NoContentIcon";
+export { SearchIcon } from "./SearchIcon";
+export { ArrowIcon } from "./ArrowIcon";

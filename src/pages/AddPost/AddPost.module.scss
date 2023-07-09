@@ -1,0 +1,139 @@
+@import "src/assets/colors";
+
+.navigation {
+  display: flex;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: $secondary;
+}
+
+.navItem {
+  padding: 0 11px;
+  color: $secondary;
+  border-right: 2px solid $gray;
+  cursor: pointer;
+
+  &:hover {
+    color: $primary-secondary;
+  }
+}
+
+.darkNavItem {
+  color: $white;
+}
+
+.navItem:first-child {
+  padding-left: 0;
+}
+
+.navItem:last-child {
+  color: $gray;
+  padding-right: 0;
+  border-right: 0;
+  cursor: default;
+}
+
+.headerWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: 100%;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.inputWrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 40px;
+}
+
+.uploadImageWrapper {
+  grid-column: 2/3;
+  grid-row: 1/4;
+}
+
+.input {
+  width: 100%;
+}
+
+.textarea {
+  grid-column: 1/3;
+
+  textarea {
+    height: 245px !important;
+  }
+}
+
+.title {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+  color: $secondary;
+}
+
+.darkTitle {
+  color: $white;
+}
+
+.uploadImageWrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.dragNDrop {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  margin-top: 8px;
+  border: 3px dashed $secondary;
+  color: $secondary;
+}
+
+.dragNDrop:hover,
+.draggable {
+  cursor: pointer;
+  border-color: $primary;
+  color: $primary;
+}
+
+.updateButtonsContainer {
+  display: flex;
+  gap: 24px;
+}
+
+.updateButton {
+  flex: 1;
+}
+
+.imageItem {
+  text-align: center;
+
+  img {
+    object-fit: contain;
+    object-position: center center;
+    margin: 10px 0;
+  }
+}
+
+.dargDragNDrop {
+  border: 3px dashed $white;
+  color: $white;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.actionButtonsWrapper {
+  display: flex;
+  gap: 24px;
+}

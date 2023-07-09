@@ -23,31 +23,25 @@ const NewPassword = () => {
     return passwordError.length === 0;
   }, [passwordError]);
 
-  const passwordOnChange = (value: string) => {
-    setPassword(value);
-  };
-
-  const confirmPasswordOnChange = (value: string) => {
-    setConfirmPassword(value);
-  };
-
   const setPasswordOnClick = () => {};
 
   return (
     <FormPage titleFormPage="New password">
       <Input
+        value={password}
         title="Password"
         placeholder="Your password"
         inputType="password"
         errText={passwordError}
-        onChange={passwordOnChange}
+        onChange={setPassword}
       />
       <Input
+        value={confirmPassword}
         title="Confirm password"
         placeholder="Confirm your email"
         inputType="password"
         errText={passwordError}
-        onChange={confirmPasswordOnChange}
+        onChange={setConfirmPassword}
       />
       <Button
         title={"Set password"}

@@ -1,4 +1,5 @@
 import { create } from "apisauce";
+import { PER_PAGE } from "../../utils/constants";
 import {
   ActivateUserData,
   SignInUserData,
@@ -9,8 +10,8 @@ const API = create({
   baseURL: "https://studapi.teachmeskills.by",
 });
 
-const getPosts = () => {
-  return API.get("/blog/posts/", { limit: 12 });
+const getPosts = (offset: number, search?: string, ordering?: string) => {
+  return API.get("/blog/posts/", { limit: PER_PAGE, search, offset, ordering });
 };
 
 const getPost = (id: string) => {
@@ -49,16 +50,25 @@ const refreshToken = (refresh: string) => {
   return API.post("/auth/jwt/refresh/", { refresh });
 };
 
-const getMyPosts = (token: string) => {
+const getMyPosts = (token: string, offset: number) => {
   return API.get(
     "/blog/posts/my_posts/",
-    {},
+    { limit: PER_PAGE, offset },
     {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     }
   );
+};
+
+const addNewPost = (token: string, data: any) => {
+  return API.post("/blog/posts/", data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${token}`,
+    },
+  });
 };
 
 export default {
@@ -71,4 +81,5 @@ export default {
   verifyToken,
   refreshToken,
   getMyPosts,
+  addNewPost,
 };

@@ -25,10 +25,6 @@ const ResetPassword = () => {
     }
   }, [email]);
 
-  const emailOnChange = (value: string) => {
-    setEmail(value);
-  };
-
   const onHomeBtnClick = () => {
     navigate(RoutesList.Home);
   };
@@ -42,11 +38,12 @@ const ResetPassword = () => {
           link to reset your password!
         </p>
         <Input
+          value={email}
           title="Email"
           placeholder="Your email"
           inputType="email"
           errText={emailError}
-          onChange={emailOnChange}
+          onChange={setEmail}
         />
       </div>
       <Button

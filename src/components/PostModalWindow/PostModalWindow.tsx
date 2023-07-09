@@ -1,24 +1,32 @@
 import React, { FC, useState } from "react";
 import Card from "../Card";
 import styles from "./PostModalWindow.module.scss";
-import { usePostVisibilityContext } from "../../context/PostVisibility/Context";
 import { ClosePostIcon } from "../../assets/icons";
 import { CardSize, CardType } from "../../utils/@globalTypes";
 import classNames from "classnames";
 import { Theme, useThemeContext } from "../../context/Theme/Context";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  PostSelectors,
+  setPostVisibility,
+  setSelectedPost,
+} from "../../redux/reducers/postSlice";
 
 type PostModalWindowProps = {
   post: CardType;
 };
 
 const PostModalWindow: FC<PostModalWindowProps> = ({ post }) => {
-  const { postVisibility, onChangePostVisibility } = usePostVisibilityContext();
   const { theme } = useThemeContext();
+  const dispatch = useDispatch();
+
+  const postVisibility = useSelector(PostSelectors.getPostVisibility);
 
   const isDark = theme === Theme.Dark;
 
-  const onCloseBtnClick = (post: null, isPostOpened: boolean) => () => {
-    onChangePostVisibility(post, isPostOpened);
+  const onCloseBtnClick = () => {
+    dispatch(setPostVisibility(false));
+    dispatch(setSelectedPost(null));
   };
   return (
     <div>
@@ -33,7 +41,7 @@ const PostModalWindow: FC<PostModalWindowProps> = ({ post }) => {
               className={classNames(styles.closeBtn, {
                 [styles.darkCloseBtn]: isDark,
               })}
-              onClick={onCloseBtnClick(null, false)}
+              onClick={onCloseBtnClick}
             >
               <ClosePostIcon />
             </div>

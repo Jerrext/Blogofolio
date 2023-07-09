@@ -45,14 +45,6 @@ const SignIn = () => {
     return emailError.length === 0 && passwordError.length === 0;
   }, [emailError, passwordError]);
 
-  const emailOnChange = (value: string) => {
-    setEmail(value);
-  };
-
-  const passwordOnChange = (value: string) => {
-    setPassword(value);
-  };
-
   const signInOnClick = () => {
     dispatch(
       signInUser({
@@ -66,19 +58,21 @@ const SignIn = () => {
     <FormPage titleFormPage="Sign In">
       <div className={styles.inputsWrapper}>
         <Input
+          value={email}
           title="Email"
           placeholder="Your email"
           inputType="email"
           errText={emailError}
-          onChange={emailOnChange}
+          onChange={setEmail}
         />
         <div className={styles.passwordWrapper}>
           <Input
+            value={password}
             title="Password"
             placeholder="Your password"
             inputType="password"
             errText={passwordError}
-            onChange={passwordOnChange}
+            onChange={setPassword}
           />
           <NavLink
             to={RoutesList.ResetPassword}
